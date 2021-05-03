@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Always buy generic</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      a {
+        color: #a07cc0;
+      }
+      li {
+        font-size: 24pt;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .inverse {
+        background: #000;
+        color: #fff;
+      }
+      .remark-slide-content {
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .stripe {
+        height: 5px;
+        width: 100%;
+        background-color: indigo;
+        border-top: 1px solid rebeccapurple;
+        border-bottom: 1px solid rebeccapurple;
+        position: absolute;
+        margin-top: 125px;
+        left: 0;
+        right: 0;
+      }
+      .remark-slide-right {
+          bottom: 12px;
+          position: absolute;
+          left: 20px;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      .carmalou {
+          color: #CCBADC;
+      }
+      .no-margin-bottom h3 {
+        margin-bottom: 0;
+      }
+      .javascript {
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, inverse
+
+# Always buy Generic
+
+## An Introduction to C# Generics
+
+![Always Save brand image](./img/always-save.png)
+
+---
+class: center, middle, inverse
+
+# Always buy Generic
+
+## An Introduction to C# Generics
+
+![Always Save brand image](./img/always-save.png)
+
+???
+Hey everyone! My name is Carmen and I'm a full stack dev here in OKC. I used to do a whole bunch of talks, but then, ya know, COVID happened. So I'm excited to be getting back into some talks. JavaScript was my language to learn, but over the last few years I've come to really enjoy C#, and Generics were part of what really helped to win me over.
+
+---
+class: center, middle, inverse
+
+# What are Generics?
+
+![Target's Market Pantry brand logo](./img/marketpantry.png)
+---
+class: left, middle, inverse
+
+# What are Generics?
+
+Generics allow dynamic types within a C# class, method, interface, or delegate.
+
+[According to Microsoft:](link) "The most common use of generics is to create collection classes."
+
+???
+I mentioned before that Generics were part of what helped win me over to C# and here's why. It happens to me fairly often that I have a method with a bunch of overloads, for example. It's effectively the same method, but I need a way to handle different types going into it. Of course, there's nothing wrong with using overloads, and if the logic differs between your models, then overloads are still probably the correct choice. But if you have similar logic between methods, and the main difference is the type changes, perhaps a Generic might be helpful.
+---
+class: center, middle, inverse
+
+## Dynamic?! You must have us mixed up with a JavaScript crowd!
+
+![Annie's Mac and Cheese Variety Pack](./img/annies-mac-and-cheese.jpg)
+
+???
+I was actually using Generics before I even realized it by using List<T> (list of type). A list doesn't know what the type passed into it will be before it happens, and Generics are the same way. So Generics are a bit more dynamic, in that they allow flexibility, but its not all willy-nilly like Vanilla JS.
+
+---
+class: left, middle, inverse
+
+# How do they work?
+
+![Equate Brand Logo](./img/equate.png)
+
+---
+class: left, middle, inverse
+
+# How do they work?
+
+- A Generic is essentially a placeholder for a type
+- A Generic placeholder will be applied at runtime
+
+???
+You'll see what I mean about Generic's basically being a placeholder in a couple of slides. Essentially, you specify within a model or a method, or wherever you're using a Generic, that you don't yet know what this type will be. Once you instantiate the model or call the method, you specify the type at that point. And then at runtime, the framework handles the rest.
+
+I just want to call out that this different from say `var` which is cast at compile time. Generics are handled at runtime.
+---
+class: center, middle, inverse
+
+# When should I use them?
+
+![Walmart "Always" Brand Marketing](./img/walmart-always.png)
+
+---
+class: left, middle, inverse
+
+# When should I use them?
+
+- In place of overloads
+- To avoid duplicating models
+- Anywhere!
+
+???
+I mentioned before that Generics can be used in place of logically similar overloads, but there's another place I really like to use them. At work we use OData, which is a data spec kind of similar to JSON. When an OData API returns JSON, it comes back in this incredibly specific format, where you have an object wrapping the data. At work, I have a C# project that consumes an OData API, and I remember thinking I needed to write this wrapper class a half dozen times.
+
+Fortunately Generics saved the day. I only had to write the wrapper once, versus writing a wrapper for each and every model within the project. In my opinion, using Generics makes for less wasteful code.
+
+---
+class: center, middle, inverse
+
+# Let's see some examples!
+
+![Aldi Brand Logo](./img/aldi.jpg)
+
+---
+class: left, middle, inverse
+
+```csharp
+// a Generic class
+public class GenericClass<T> {
+	public string Title { get; set; }
+	
+	public T GenType { get; set; }
+}
+
+// using the class
+GenericClass<string> tmpGen = new GenericClass<string>();
+```
+
+???
+Be sure to mention the placeholder concept again.
+---
+class: left, middle, inverse
+
+```csharp
+// a generic method
+public void WriteToConsole<T>(T param) {
+    Console.WriteLine(param.ToString());
+}
+
+// calling the method
+WriteToConsole<GenericClass<string>>(new GenericClass<string>());
+```
+
+???
+I like this example because I've seen this concept used within built-in C# methods a bunch. This example is maybe a little bit contrived, but Xamarin Forms has a concept of a MessageCenter. Xamarin Forms is a mobile framework, where you have platform code, but also your business logic lives within a more standard C# app. 
+
+With MessageCenter you can communicate between the C# code and the platform code, and MessageCenter allows you to specify the object type you pass in, and it doesn't care what the object is. Another very cool Generics use case!
+
+---
+class: left, middle, inverse
+
+# References
+
+- [Generics (C# Programming Guide)](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/)
+- [Generic Methods (C# Programming Guide)](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generic-methods)
+- [Generic Classes (C# Programming Guide)](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generic-classes)
+
+---
+class: center, middle, inverse
+
+# Thanks for listening!
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
